@@ -1,0 +1,53 @@
+/*
+ * MH-Quantum Inspector — Local Font Definitions
+ * 
+ * LƯU Ý: File này hiện dùng local() fallback. 
+ * Để font hiển thị đúng, bạn cần:
+ *   1. Tải font Inter (woff2) từ https://fonts.google.com/specimen/Inter
+ *   2. Tải font JetBrains Mono (woff2) từ https://fonts.google.com/specimen/JetBrains+Mono
+ *   3. Đặt các file .woff2 vào thư mục fonts/ này
+ *   4. Thêm dòng src url() tương ứng vào mỗi @font-face block bên dưới
+ *
+ * Ví dụ:
+ *   src: local('Inter'), local('Inter-Regular'), url('Inter-Regular.woff2') format('woff2');
+ */
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Inter'), local('Inter-Regular');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Inter Medium'), local('Inter-Medium');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Inter SemiBold'), local('Inter-SemiBold');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('JetBrains Mono'), local('JetBrainsMono-Regular');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('JetBrains Mono Medium'), local('JetBrainsMono-Medium');
+}

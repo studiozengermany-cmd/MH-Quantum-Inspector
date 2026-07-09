@@ -1,0 +1,60 @@
+{
+  "manifest_version": 3,
+  "name": "MH-Quantum Inspector",
+  "version": "3.0.0",
+  "description": "Click any element → instant AI-ready context. Zero setup. Zero server.",
+  "permissions": [
+    "storage",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "utils/dom-crawler.js",
+        "utils/prompt-generator.js",
+        "utils/payload-schema.js",
+        "content.js"
+      ],
+      "css": ["inspector.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "MH-Quantum Inspector"
+  },
+  "commands": {
+    "toggle-inspector": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+X",
+        "mac": "Command+Shift+X"
+      },
+      "description": "Toggle element inspector"
+    },
+    "copy-last-context": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+C",
+        "mac": "Command+Shift+C"
+      },
+      "description": "Copy last inspected context"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

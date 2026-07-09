@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Preview Extension Popup</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #e5e7eb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: sans-serif;
+    }
+    .chrome-browser {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .chrome-header {
+      background: #dee1e6;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+      position: relative;
+    }
+    .chrome-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .chrome-dots span {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ff5f56;
+    }
+    .chrome-dots span:nth-child(2) { background: #ffbd2e; }
+    .chrome-dots span:nth-child(3) { background: #27c93f; }
+    
+    .chrome-address {
+      flex: 1;
+      background: white;
+      height: 24px;
+      border-radius: 12px;
+      margin-left: 20px;
+    }
+
+    .chrome-ext-icon {
+      width: 24px;
+      height: 24px;
+      background: #00F5FF;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* The actual popup */
+    .popup-container {
+      position: absolute;
+      top: 48px;
+      right: 16px;
+      width: 340px;
+      height: 600px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chrome-browser" style="width: 1024px; height: 768px;">
+    <div class="chrome-header">
+      <div class="chrome-dots"><span></span><span></span><span></span></div>
+      <div class="chrome-address"></div>
+      <div class="chrome-ext-icon"></div>
+      
+      <!-- Giả lập Popup rớt xuống -->
+      <div class="popup-container">
+        <iframe src="/popup/popup.html"></iframe>
+      </div>
+    </div>
+    <div style="flex:1; background: #f8f9fa; display:flex; justify-content:center; align-items:center; color: #888;">
+      <h1>Trang web giả lập</h1>
+    </div>
+  </div>
+
+</body>
+</html>

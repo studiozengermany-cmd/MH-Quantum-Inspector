@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "mh-quantum": {
+      "command": "node",
+      "args": ["J:\\2. Minh Hieu Check FIX WEB\\MH-QUANTUM-INSPECTOR\\mcp\\mcp-server.js"]
+    }
+  }
+}

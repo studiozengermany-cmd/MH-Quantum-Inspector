@@ -1,0 +1,13 @@
+# ShipStudio metadata
+.shipstudio/
+
+# Node modules
+node_modules/
+package-lock.json
+
+# Mac OS
+.DS_Store
+
+# Logs
+logs/
+*.log

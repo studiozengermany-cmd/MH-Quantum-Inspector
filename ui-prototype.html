@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UI Prototype - MH-Quantum Inspector</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* PRISTINE LIGHT THEME (Agency Level) */
+    :root {
+      --color-bg: #FFFFFF;
+      --color-surface: #F9FAFB;
+      --color-surface-alt: #F3F4F6;
+      --color-text-main: #111827;
+      --color-text-muted: #6B7280;
+      --color-border: rgba(17, 24, 39, 0.08);
+      --color-accent: #2563EB;
+      --color-accent-hover: #1D4ED8;
+      --color-success: #10B981;
+      --color-danger: #EF4444;
+      
+      --font-ui: 'Geist', system-ui, -apple-system, sans-serif;
+      --font-mono: 'Geist Mono', monospace;
+      
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-xl: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #E5E7EB; /* Màu nền xám để làm nổi bật Popup trắng */
+      background-image: radial-gradient(#D1D5DB 1px, transparent 1px);
+      background-size: 20px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: var(--font-ui);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    * { box-sizing: border-box; }
+
+    /* MÔ PHỎNG POPUP EXTENSION */
+    .app-container {
+      width: 360px;
+      height: 620px;
+      background-color: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--color-border);
+      background: var(--color-bg);
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 24px;
+      height: 24px;
+      background: var(--color-accent);
+      border-radius: 6px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: 600;
+      font-size: 10px;
+    }
+
+    .logo-text {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--color-text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .icon-btn:hover { background: var(--color-surface); color: var(--color-text-main); }
+    .icon-btn:active { transform: scale(0.95); }
+    .icon-btn svg { width: 18px; height: 18px; }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--color-border);
+      padding: 0 8px;
+      background: var(--color-surface);
+      overflow-x: auto;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+
+    .tab {
+      background: none;
+      border: none;
+      padding: 14px 12px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .tab:hover { color: var(--color-text-main); }
+    .tab.active { color: var(--color-accent); border-bottom-color: var(--color-accent); }
+
+    /* CONTENT AREA */
+    .content-area {
+      flex: 1;
+      padding: 24px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s ease;
+      border: none;
+      font-family: inherit;
+      width: 100%;
+      gap: 8px;
+    }
+    .btn-primary { background: var(--color-accent); color: white; }
+    .btn-primary:hover { background: var(--color-accent-hover); }
+    .btn-primary:active { transform: scale(0.97); }
+
+    .btn-danger { background: white; color: var(--color-danger); border: 1px solid #FCA5A5; }
+    .btn-danger:hover { background: #FEF2F2; }
+    .btn-danger:active { transform: scale(0.97); }
+
+    .btn-secondary { background: var(--color-surface); color: var(--color-text-main); border: 1px solid var(--color-border); }
+    .btn-secondary:hover { background: var(--color-surface-alt); }
+    .btn-secondary:active { transform: scale(0.97); }
+
+    .btn svg { width: 16px; height: 16px; }
+
+    /* SECTION LABELS */
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    /* DASHBOARD / MCP BOX */
+    .dashboard-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      background: #D1FAE5;
+      color: #065F46;
+      border: 1px solid #A7F3D0;
+    }
+    .status-badge.offline {
+      background: #FEE2E2;
+      color: #991B1B;
+      border-color: #FECACA;
+    }
+    .status-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: currentColor;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BẢN MÔ PHỎNG GIAO DIỆN -->
+  <div class="app-container">
+    
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-area">
+        <div class="logo-icon">MH</div>
+        <span class="logo-text">MH-Quantum</span>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" title="Hướng dẫn sử dụng">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        </button>
+        <button class="icon-btn" title="Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Tabs -->
+    <nav class="tabs">
+      <button class="tab">Dashboard</button>
+      <button class="tab active">MCP Sync</button>
+      <button class="tab">Selector</button>
+      <button class="tab">Layout</button>
+    </nav>
+
+    <!-- Content -->
+    <div class="content-area">
+      
+      <!-- Box Trạng thái -->
+      <div class="dashboard-card">
+        <div style="font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--color-text-main);">Trạng thái MCP Server</div>
+        <div class="status-badge offline">
+          <span class="status-dot"></span> Đã ngắt kết nối
+        </div>
+        <div style="font-size: 12px; color: var(--color-text-muted); line-height: 1.5;">
+          Kết nối trực tiếp dữ liệu bóc tách được (DOM/CSS) thẳng vào IDE Cursor hoặc Claude Desktop mà không cần Copy/Paste.
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: auto;">
+        <!-- Nút Kết nối MCP -->
+        <button class="btn btn-primary" style="background: #10B981;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+          Kết nối Cursor / Claude
+        </button>
+
+        <!-- Nút Bật/Tắt -->
+        <button class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+          Bật Khoanh Vùng
+        </button>
+        <button class="btn btn-danger">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><rect x="9" y="9" width="6" height="6"></rect></svg>
+          Tắt Khoanh Vùng
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

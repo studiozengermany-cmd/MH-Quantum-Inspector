@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MH-Quantum-Inspector v2.1 — Test Page</title>
+
+  <!-- ── Inspector Styles ── -->
+  <link rel="stylesheet" href="ui/mh-quantum.css" />
+
+  <style>
+    /* ════════════════════════════════════════════════════════════
+       MH-QUANTUM-INSPECTOR v2.1 — TEST PAGE STYLES
+       ════════════════════════════════════════════════════════════ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background:    #f8fafc;
+      color:         #334155;
+      font-family:   'Segoe UI', system-ui, sans-serif;
+      min-height:    100vh;
+    }
+
+    /* ── Layout ── */
+    .page-content {
+      max-width: 1120px;
+      margin:    0 auto;
+      padding:   24px 28px 0;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      background:    linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      border-bottom: 1px solid #e2e8f0;
+      padding:       18px 36px;
+      display:       flex;
+      align-items:   center;
+      gap:           16px;
+      flex-wrap:     wrap;
+    }
+
+    .header-logo {
+      font-size:     20px;
+      font-weight:   700;
+      color:         #0f766e;
+      letter-spacing: 1.5px;
+      flex-shrink:   0;
+    }
+
+    .header-badge {
+      background:    #f0fdf4;
+      border:        1px solid #bbf7d0;
+      color:         #166534;
+      padding:       4px 14px;
+      border-radius: 20px;
+      font-size:     11px;
+      font-family:   monospace;
+    }
+
+    .header-badge.version {
+      background: #fdf2f8;
+      border:     1px solid #fbcfe8;
+      color:      #9d174d;
+    }
+
+    /* ── Instructions ── */
+    .instructions {
+      background:    #ffffff;
+      border:        1px solid #e2e8f0;
+      border-radius: 12px;
+      padding:       18px 24px;
+      margin-bottom: 28px;
+      box-shadow:    0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .instructions h3 {
+      color:         #0f766e;
+      margin-bottom: 10px;
+      font-size:     13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .instructions ol {
+      color:          #475569;
+      font-size:      13px;
+      line-height:    2;
+      padding-left:   20px;
+    }
+
+    .instructions code {
+      background:    #f1f5f9;
+      color:         #0f766e;
+      border:        1px solid #cbd5e1;
+      padding:       1px 7px;
+      border-radius: 4px;
+      font-family:   monospace;
+      font-size:     12px;
+    }
+
+    /* ── Hero ── */
+    .demo-hero {
+      background:    linear-gradient(135deg, #f1f5f9 0%, #f8fafc 100%);
+      border:        1px solid #cbd5e1;
+      border-radius: 16px;
+      padding:       48px 40px;
+      text-align:    center;
+      margin-bottom: 28px;
+    }
+
+    .demo-hero h2 {
+      font-size:   36px;
+      background:  linear-gradient(90deg, #0f766e 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .demo-hero p { color: #64748b; font-size: 15px; }
+
+    /* ── Demo Grid ── */
+    .demo-grid {
+      display:               grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap:                   18px;
+      margin-bottom:         28px;
+    }
+
+    .demo-card {
+      background:    #ffffff;
+      border:        1px solid #e2e8f0;
+      border-radius: 12px;
+      padding:       22px 24px;
+      transition:    border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      box-shadow:    0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .demo-card:hover {
+      border-color: rgba(15,118,110,0.45);
+      transform:    translateY(-2px);
+      box-shadow:   0 8px 30px rgba(0,0,0,0.06);
+    }
+
+    .demo-card h3 {
+      color:         #0f766e;
+      margin-bottom: 8px;
+      font-size:     15px;
+    }
+
+    .demo-card p {
+      color:       #475569;
+      font-size:   13px;
+      line-height: 1.65;
+    }
+
+    .tag-row {
+      margin-top: 12px;
+      display:    flex;
+      gap:        6px;
+      flex-wrap:  wrap;
+    }
+
+    .tag {
+      background:    #f1f5f9;
+      border:        1px solid #cbd5e1;
+      color:         #0f766e;
+      padding:       2px 8px;
+      border-radius: 4px;
+      font-size:     11px;
+      font-family:   monospace;
+    }
+
+    /* ── Z-index test zone ── */
+    .z-test-section {
+      background:    #ffffff;
+      border:        1px solid #e2e8f0;
+      border-radius: 12px;
+      padding:       24px;
+      margin-bottom: 28px;
+      box-shadow:    0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .z-test-section h3 {
+      color:          rgba(15,118,110,0.8);
+      font-size:      12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom:  16px;
+    }
+
+    .z-arena {
+      position: relative;
+      height:   130px;
+    }
+
+    .z-box {
+      position:      absolute;
+      border-radius: 8px;
+      padding:       10px 14px;
+      font-size:     12px;
+      font-family:   monospace;
+    }
+
+    .z1  { background:#f8fafc; left:20px;  top:20px;  z-index:1;  color:#475569; border: 1px solid #cbd5e1; }
+    .z2  { background:#f1f5f9; left:80px;  top:35px;  z-index:2;  color:#334155; border: 1px solid #94a3b8; }
+    .z3  { background:#e2e8f0; left:150px; top:15px;  z-index:3;  color:#0f172a; border: 1px solid #64748b; }
+    .z10 { background:#dbeafe; left:230px; top:40px;  z-index:10; color:#1e40af; border: 1px solid #93c5fd; }
+    .z99 { background:#f3e8ff; left:360px; top:25px;  z-index:99; color:#6b21a8; border: 1px solid #d8b4fe; }
+
+    /* ── Animation test ── */
+    .anim-section {
+      background:    #ffffff;
+      border:        1px solid #e2e8f0;
+      border-radius: 12px;
+      padding:       24px;
+      margin-bottom: 28px;
+      display:       flex;
+      gap:           24px;
+      align-items:   center;
+      flex-wrap:     wrap;
+      box-shadow:    0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .anim-section h3 {
+      color:          rgba(15,118,110,0.8);
+      font-size:      12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom:  8px;
+    }
+
+    .anim-info { flex: 1; min-width: 200px; }
+    .anim-info p { color: #475569; font-size: 13px; line-height: 1.6; }
+
+    .anim-box {
+      width:         90px;
+      height:        90px;
+      background:    linear-gradient(135deg, #0f766e, #6366f1);
+      border-radius: 16px;
+      display:       flex;
+      align-items:   center;
+      justify-content: center;
+      font-size:     10px;
+      font-weight:   700;
+      color:         #ffffff;
+      flex-shrink:   0;
+      animation:     spin-pulse 3s ease-in-out infinite;
+    }
+
+    .anim-box-2 {
+      width:         70px;
+      height:        70px;
+      background:    linear-gradient(135deg, #FF00FF, #FF4444);
+      border-radius: 50%;
+      flex-shrink:   0;
+      animation:     bounce-fade 2s ease-in-out infinite;
+    }
+
+    @keyframes spin-pulse {
+      0%   { transform: rotate(0deg)   scale(1);   }
+      50%  { transform: rotate(180deg) scale(1.25); }
+      100% { transform: rotate(360deg) scale(1);   }
+    }
+
+    @keyframes bounce-fade {
+      0%, 100% { transform: translateY(0);    opacity: 1; }
+      50%       { transform: translateY(-20px); opacity: 0.4; }
+    }
+
+    /* ── GSAP sim (JS-driven animation test) ── */
+    .gsap-box {
+      width:         80px;
+      height:        80px;
+      background:    linear-gradient(135deg, #FFAA00, #FF4444);
+      border-radius: 12px;
+      flex-shrink:   0;
+      position:      relative;
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      border-top: 1px solid #e2e8f0;
+      padding:    24px 36px;
+      text-align: center;
+      color:      #64748b;
+      font-size:  12px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="page-header">
+  <div class="header-logo">⚡ MH-QUANTUM-INSPECTOR</div>
+  <span class="header-badge">Ctrl + Shift + X</span>
+  <span class="header-badge version">v2.1.0 — 9 Bugs Patched</span>
+</header>
+
+<main class="page-content">
+
+  <!-- Instructions -->
+  <div class="instructions">
+    <h3>📖 Hướng dẫn sử dụng</h3>
+    <ol>
+      <li>Nhấn <code>Ctrl + Shift + X</code> để kích hoạt chế độ inspect</li>
+      <li>Kéo chuột vẽ hình chữ nhật bao quanh vùng muốn inspect</li>
+      <li>Popup sẽ xuất hiện NGAY CẠNH vùng chọn — nhập ý định <em>(hoặc chọn quick intent)</em></li>
+      <li>Enter gửi · Esc hủy · để trống = phân tích tổng quát</li>
+      <li>Tool tự phân tích và gửi <strong>4D Context Package</strong> cho AI</li>
+      <li>Nhấn <code>Esc</code> hoặc <code>Ctrl+Shift+X</code> lần nữa để tắt</li>
+    </ol>
+  </div>
+
+  <!-- Hero -->
+  <section class="demo-hero" id="hero-section">
+    <h2>Quantum Inspect. Zero Friction.</h2>
+    <p>WebGL Quantum Mesh · 4D Context · E2E Encrypted · AI-Proof Package</p>
+  </section>
+
+  <!-- Animation Test Zone (T-axis detection) -->
+  <div class="anim-section">
+    <div class="anim-info">
+      <h3>🕐 Kiểm Tra Nhận Diện Trục T (Thời Gian)</h3>
+      <p>
+        Hệ thống tự động phát hiện 3 loại hoạt ảnh (animation) khác nhau:<br/>
+        <strong>Hoạt ảnh CSS:</strong> spin-pulse (xoay màu xanh) + bounce-fade (nảy màu hồng).<br/>
+        <strong>Web Animations API:</strong> translateX + rotate (xoay màu cam chạy bằng JS).<br/>
+        <strong>Giả lập GSAP:</strong> MutationObserver phát hiện thay đổi style trực tiếp (inline style).
+      </p>
+    </div>
+    <div class="anim-box" id="anim-css">CSS</div>
+    <div class="anim-box-2" id="anim-css2">CSS</div>
+    <div class="gsap-box" id="anim-js">
+      <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#000;text-align:center;line-height:1.2;">
+        Web API
+      </span>
+    </div>
+  </div>
+
+  <!-- Z-index test -->
+  <div class="z-test-section">
+    <h3>📐 Test Z-Axis (Stacking Context)</h3>
+    <div class="z-arena">
+      <div class="z-box z1"  id="z-layer-1">z-index: 1</div>
+      <div class="z-box z2"  id="z-layer-2">z-index: 2</div>
+      <div class="z-box z3"  id="z-layer-3">z-index: 3</div>
+      <div class="z-box z10" id="z-layer-10">z-index: 10 ⭐</div>
+      <div class="z-box z99" id="z-layer-99">z-index: 99 👑</div>
+    </div>
+  </div>
+
+  <!-- Feature Cards -->
+  <div class="demo-grid">
+
+    <div class="demo-card" id="card-engine">
+      <h3>🧠 Quantum Engine</h3>
+      <p>
+        Bộ não trung tâm điều phối toàn bộ pipeline.
+        Hotkey → Selection → Analysis → Render → Transport.
+        9 bugs patched. Zero memory leak.
+      </p>
+      <div class="tag-row">
+        <span class="tag">quantum-engine.js</span>
+      </div>
+    </div>
+
+    <div class="demo-card" id="card-4d">
+      <h3>📐 4D Adaptive Sampler</h3>
+      <p>
+        X, Y với viewport + scroll offset. Z với true stacking
+        context depth. T chỉ khi element đang animate — null
+        nếu tĩnh. Zero over-engineering.
+      </p>
+      <div class="tag-row">
+        <span class="tag">dimension-sampler.js</span>
+        <span class="tag">adaptive</span>
+      </div>
+    </div>
+
+    <div class="demo-card" id="card-temporal">
+      <h3>🕐 Bộ Giám Sát Thời Gian (Temporal Observer)</h3>
+      <p>
+        Tự động quét hoạt ảnh CSS, Web Animations API, và GSAP/Framer
+        Motion thông qua MutationObserver. Hệ thống 3 lớp bảo vệ giúp trục
+        thời gian (T-axis) không còn bất kỳ điểm mù nào.
+      </p>
+      <div class="tag-row">
+        <span class="tag">temporal-observer.js</span>
+        <span class="tag">fix-#6</span>
+        <span class="tag">MutationObserver</span>
+      </div>
+    </div>
+
+    <div class="demo-card" id="card-transport">
+      <h3>📡 3-Tier Transport</h3>
+      <p>
+        Tier 1: WebSocket E2E encrypted.
+        Tier 2: Clipboard fallback.
+        Tier 3: JSON file export.
+        Luôn hoạt động dù offline hay thiếu permission.
+      </p>
+      <div class="tag-row">
+        <span class="tag">ws-client.js</span>
+        <span class="tag">3-tier</span>
+        <span class="tag">fallback</span>
+      </div>
+    </div>
+
+    <div class="demo-card" id="card-dom-crawler">
+      <h3>🔍 DOM Crawler</h3>
+      <p>
+        elementFromPoint xuyên qua overlay.
+        XPath generator không còn undefined root.
+        CSS Selector builder với ID-first logic.
+        Max elements limit để tránh quá tải.
+      </p>
+      <div class="tag-row">
+        <span class="tag">dom-crawler.js</span>
+        <span class="tag">fix-#7</span>
+        <span class="tag">fix-#8</span>
+      </div>
+    </div>
+
+    <div class="demo-card" id="card-prompt">
+      <h3>🤖 AI-Proof Prompt</h3>
+      <p>
+        Auto-generate structured prompt từ toàn bộ context.
+        Tiếng Việt / Tiếng Anh. Schema versioning.
+        AI không còn lý do hỏi lại hay từ chối.
+      </p>
+      <div class="tag-row">
+        <span class="tag">payload-schema.js</span>
+        <span class="tag">auto-prompt</span>
+        <span class="tag">vi/en</span>
+      </div>
+    </div>
+
+    <div class="demo-card" id="card-stacking">
+      <h3>📊 Stacking Resolver</h3>
+      <p>
+        Resolve TRUE z-depth — không chỉ đọc CSS z-index.
+        Detect opacity, transform, filter, will-change,
+        isolation, flex/grid z-index contexts.
+      </p>
+      <div class="tag-row">
+        <span class="tag">stacking-context-resolver.js</span>
+      </div>
+    </div>
+
+    <!-- Deeply nested element test -->
+    <div class="demo-card" id="card-nested-outer"
+         style="position:relative;">
+      <h3>🪆 Nested Z-Context Test</h3>
+      <p>Element này tạo stacking context (position + z-index).</p>
+      <div style="
+        position:   relative;
+        z-index:    2;
+        background: rgba(0,255,170,0.08);
+        border:     1px solid rgba(0,255,170,0.2);
+        border-radius: 6px;
+        padding:    10px;
+        margin-top: 10px;
+      " id="card-nested-inner">
+        <span style="font-size:12px;color:rgba(0,255,170,0.6);font-family:monospace;">
+          z-index:2 — inner context
+        </span>
+        <div style="
+          position:   absolute;
+          bottom:     8px;
+          right:      8px;
+          background: rgba(255,0,255,0.15);
+          border:     1px solid rgba(255,0,255,0.3);
+          border-radius: 4px;
+          padding:    3px 8px;
+          font-size:  10px;
+          color:      #FF00FF;
+          font-family: monospace;
+        " id="card-nested-deepest">z:5</div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">3 levels deep</span>
+        <span class="tag">stacking</span>
+      </div>
+    </div>
+
+    <div class="demo-card" id="card-transform">
+      <h3>🔄 Transform Context</h3>
+      <p>
+        transform: scale() tạo stacking context mới.
+        Resolver detect đúng depth không chỉ dựa vào
+        z-index. Depth tăng dần theo số context cha.
+      </p>
+      <div style="
+        transform:     scale(0.95);
+        background:    rgba(99,102,241,0.1);
+        border:        1px solid rgba(99,102,241,0.3);
+        border-radius: 6px;
+        padding:       8px 12px;
+        margin-top:    10px;
+        font-size:     12px;
+        color:         #818cf8;
+        font-family:   monospace;
+      " id="transform-child">
+        transform: scale(0.95) → new stacking context
+      </div>
+      <div class="tag-row">
+        <span class="tag">transform</span>
+        <span class="tag">stacking-context</span>
+      </div>
+    </div>
+
+    <div class="demo-card" id="card-opacity">
+      <h3>👻 Opacity Context</h3>
+      <p>
+        opacity &lt; 1 cũng tạo stacking context.
+        Đây là lý do nhiều dev bị confuse về z-index.
+        Inspector giải thích rõ nguyên nhân.
+      </p>
+      <div style="
+        opacity:       0.85;
+        background:    rgba(255,170,0,0.1);
+        border:        1px solid rgba(255,170,0,0.3);
+        border-radius: 6px;
+        padding:       8px 12px;
+        margin-top:    10px;
+        font-size:     12px;
+        color:         #FFAA00;
+        font-family:   monospace;
+      " id="opacity-child">
+        opacity: 0.85 → stacking context created
+      </div>
+      <div class="tag-row">
+        <span class="tag">opacity</span>
+        <span class="tag">stacking-context</span>
+      </div>
+    </div>
+
+  </div>
+  <!-- end demo-grid -->
+
+</main>
+
+<!-- Footer -->
+<footer class="page-footer">
+  ⚡ MH-QUANTUM-INSPECTOR v2.1 &nbsp;·&nbsp;
+  9 Bugs Patched &nbsp;·&nbsp;
+  Zero External Dependencies &nbsp;·&nbsp;
+  Credits: Zenith.gg / TWAI Fam
+</footer>
+
+<!-- ============================================================
+     SCRIPTS — Thứ tự load cực kỳ quan trọng
+     Dependencies phải load trước dependents
+     ============================================================ -->
+
+<!-- 1. Config (no deps) -->
+<script src="mh-quantum.config.js"></script>
+
+<!-- 2. Analyzers (no deps) -->
+<script src="analyzer/stacking-context-resolver.js"></script>
+<script src="analyzer/computed-style-extractor.js"></script>
+<script src="analyzer/dom-crawler.js"></script>
+
+<!-- 3. Core (depends on extractor) -->
+<script src="core/temporal-observer.js"></script>
+<script src="core/dimension-sampler.js"></script>
+
+<!-- 4. Renderer -->
+<script src="renderer/webgl-context.js"></script>
+<script src="renderer/quantum-mesh-builder.js"></script>
+<script src="renderer/hud-overlay.js"></script>
+
+<!-- 5. Transport -->
+<script src="transport/e2e-cipher.js"></script>
+<script src="transport/payload-schema.js"></script>
+<script src="transport/ws-client.js"></script>
+
+<!-- 6. UI -->
+<script src="ui/toast.js"></script>
+<script src="ui/statusbar.js"></script>       <!-- [NEW] thay panel.js -->
+<script src="ui/contextual-popup.js"></script>   <!-- [NEW] popup tại chỗ -->
+
+<!-- 7. Engine (depends on everything above) -->
+<script src="core/quantum-engine.js"></script>
+
+<!-- ── Demo: JS-driven animation (Web Animations API) ── -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const jsBox = document.getElementById("anim-js");
+    if (!jsBox) return;
+
+    // Web Animations API — GSAP làm điều tương tự
+    jsBox.animate(
+      [
+        { transform: "translateX(0px) rotate(0deg)",   background: "linear-gradient(135deg, #FFAA00, #FF4444)" },
+        { transform: "translateX(30px) rotate(180deg)", background: "linear-gradient(135deg, #FF4444, #FFAA00)" },
+        { transform: "translateX(0px) rotate(360deg)",  background: "linear-gradient(135deg, #FFAA00, #FF4444)" },
+      ],
+      {
+        duration:   2200,
+        iterations: Infinity,
+        easing:     "ease-in-out",
+      }
+    );
+
+    // Confirm T-axis detection works
+    console.log(
+      "[MHQ Demo] anim-js running Web Animations API:",
+      jsBox.getAnimations().length, "animation(s)"
+    );
+  });
+</script>
+
+</body>
+</html>

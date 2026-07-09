@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trực quan In-Page Inspector</title>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #f0f2f5; padding: 40px; margin: 0; }
+    .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    h1 { color: #1a1a1a; }
+    .kpi-card { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; padding: 24px; border-radius: 12px; margin-top: 20px; display: inline-block; cursor: pointer; }
+    .kpi-card h3 { margin: 0 0 10px 0; font-size: 16px; opacity: 0.9; }
+    .kpi-card p { margin: 0; font-size: 32px; font-weight: bold; }
+    .instruction { background: #e0f2fe; color: #0369a1; padding: 12px 16px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #0284c7; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Demo Giao diện In-Page (Lớp phủ web)</h1>
+    <div class="instruction">
+      <strong>Hướng dẫn:</strong><br>
+      Hãy rê chuột vòng quanh cái nút màu xanh dương bên dưới. Kế tiếp, click chuột trái vào nó để xem Menu hiện lên.
+    </div>
+    
+    <div class="kpi-card" id="demo-btn" data-metric="users">
+      <h3>Tổng số người dùng</h3>
+      <p>12,840</p>
+    </div>
+  </div>
+
+  <!-- Mock Extension Environment -->
+  <script>
+    // Fake Chrome Runtime
+    window.chrome = { runtime: { id: 'mh-quantum-test-123', sendMessage: () => {} } };
+    
+    // Fake Crawler (trả về dữ liệu ảo khi click)
+    window.MHDomCrawler = {
+      crawl: (el) => ({
+        identity: { tag: el.tagName.toLowerCase(), selector: el.id ? '#' + el.id : '.' + el.className, id: el.id, classes: [] },
+        geometry: { width: el.offsetWidth, height: el.offsetHeight, x: el.offsetLeft, y: el.offsetTop, viewport: {} },
+        stacking: { display: 'block', position: 'static', zIndex: 'auto' },
+        styles: { backgroundColor: 'rgb(37, 99, 235)', color: 'white', padding: '24px' },
+        meta: { viewport: {} }
+      }),
+      getUniqueSelector: (el) => el.id ? '#' + el.id : el.tagName.toLowerCase(),
+      getSelector: (el) => el.tagName.toLowerCase()
+    };
+    
+    // Fake Schema & Generator
+    window.MHPayloadSchema = { build: (el) => ({ element: el }), compact: (p) => p, serialize: () => '{}' };
+    window.MHPromptGenerator = { generate: () => 'Mock Prompt Generated!' };
+  </script>
+  
+  <!-- Load Content Script thực tế -->
+  <script src="content.js"></script>
+
+  <!-- Kích hoạt -->
+  <script>
+    setTimeout(() => {
+      // Bắn sự kiện giả lập phím Ctrl+Shift+X để bật Inspector
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'X', ctrlKey: true, shiftKey: true }));
+      // Dùng hàm onMessage fake
+      document.documentElement.style.cursor = 'crosshair';
+      console.log('Inspector Activated Manually');
+    }, 500);
+  </script>
+</body>
+</html>

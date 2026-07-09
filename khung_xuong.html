@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi" translate="no">
+<head>
+  <meta charset="UTF-8">
+  <title>Bản vẽ Khung xương Ứng dụng</title>
+  <style>
+    body { background: #f4f4f5; font-family: sans-serif; padding: 40px; color: #333; }
+    .board { max-width: 1000px; margin: 0 auto; }
+    h1 { text-align: center; color: #111; text-transform: uppercase; }
+    .instruction { background: #fee2e2; border-left: 6px solid #ef4444; padding: 20px; margin-bottom: 40px; font-size: 18px; line-height: 1.6;}
+    .section { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 40px; }
+    .section h2 { border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; margin-top: 0; color: #1f2937; }
+    
+    /* Mockup Popup */
+    .mock-popup { width: 340px; height: 600px; background: #0A0A0A; color: white; border: 2px solid #444; border-radius: 8px; position: relative; margin: 40px auto; display: flex; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.5);}
+    .mp-header { padding: 15px; border-bottom: 1px solid #333; display: flex; align-items: center; justify-content: space-between;}
+    .mp-tabs { display: flex; border-bottom: 1px solid #333; }
+    .mp-tab { flex: 1; padding: 10px; text-align: center; font-size: 12px; color: #888; font-weight: bold;}
+    .mp-tab.active { color: #00F5FF; border-bottom: 2px solid #00F5FF; }
+    .mp-content { padding: 20px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;}
+    .mp-btn { background: #2563EB; color: white; padding: 10px 20px; border-radius: 6px; margin-top: 20px; font-weight: bold;}
+    
+    /* Labeling */
+    .label { position: absolute; background: #ef4444; color: white; padding: 6px 12px; border-radius: 20px; font-size: 14px; font-weight: bold; z-index: 10; box-shadow: 0 4px 6px rgba(239,68,68,0.3); border: 2px solid white; white-space: nowrap;}
+    .label::after { content: ''; position: absolute; width: 40px; height: 2px; background: #ef4444; }
+    .label-left::after { right: -40px; top: 15px; }
+    .label-right::after { left: -40px; top: 15px; }
+
+    /* Mockup Context Menu */
+    .mock-menu { width: 300px; background: #161618; border: 1px solid #333; border-radius: 8px; padding: 15px; color: white; margin: 40px auto; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.5);}
+    .mm-header { font-size: 12px; color: #888; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;}
+    .mm-btn { background: #222; color: white; padding: 10px; margin-bottom: 8px; border-radius: 6px; text-align: left; font-size: 13px; cursor: pointer; border: 1px solid #333;}
+    .mm-input { background: #0A0A0A; border: 1px solid #555; padding: 12px; color: white; width: calc(100% - 26px); border-radius: 6px; margin-bottom: 15px; margin-top: 15px; font-family: inherit;}
+    
+  </style>
+</head>
+<body>
+  <div class="board">
+    <h1>BẢN VẼ KHUNG XƯƠNG (DÀNH CHO SẾP DUYỆT)</h1>
+    <div class="instruction">
+      <strong>THƯ GỬI ANH:</strong><br><br>
+      Dạ em hiểu. Do lúc nãy anh mở bằng link tab web bự chảng bị Google Dịch nó chèn vào phá nát layout nên anh nhìn thấy gớm ghiếc là phải.<br><br>
+      Bây giờ em dẹp hết code. Em rải toàn bộ <strong>khung xương, bố cục và chức năng</strong> của nó ra cái trang web trắng này. Anh cứ cầm điện thoại hay phần mềm chụp ảnh màn hình, <strong>vẽ vòng tròn đỏ vào chỗ anh ghét</strong>, ghi chú <em>"Đổi màu xanh lá cho tao"</em>, <em>"Thêm nút sửa ở đây"</em> rồi gửi lên cho em. Em sẽ đập đi xây lại đúng y xì chấm anh khoanh!
+    </div>
+
+    <!-- PHẦN 1 -->
+    <div class="section">
+      <h2>1. KHUNG BẢNG ĐIỀU KHIỂN (Cái hộp Extension khi bấm vào)</h2>
+      <p>Khi làm extension lên Chrome, kích thước bắt buộc của nó là cái hộp 340px (Rộng) x 600px (Cao). Hiện tại em đang bố trí các chức năng như vầy:</p>
+      
+      <div class="mock-popup">
+        <div class="label label-left" style="top: 15px; left: -220px;">1. Logo & Tên ứng dụng</div>
+        <div class="mp-header">
+          <div>MH-Quantum Inspector</div>
+          <div>📌 ✕</div>
+        </div>
+        
+        <div class="label label-right" style="top: 60px; right: -250px;">2. Các Tab Chuyển đổi tính năng</div>
+        <div class="mp-tabs">
+          <div class="mp-tab active">Selector</div>
+          <div class="mp-tab">Layout</div>
+          <div class="mp-tab">Styles</div>
+          <div class="mp-tab">Prompt</div>
+        </div>
+        
+        <div class="mp-content">
+          <div class="label label-left" style="top: 250px; left: -190px;">3. Vùng hiển thị kết quả lỗi</div>
+          <p style="color: #666;">Không có phần tử nào được chọn</p>
+          
+          <div class="label label-right" style="bottom: 260px; right: -250px;">4. Nút bấm kích hoạt dò lỗi web</div>
+          <div class="mp-btn">Kiểm tra phần tử (Inspect)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHẦN 2 -->
+    <div class="section">
+      <h2>2. KHUNG MENU (Hiện ra khi anh khoanh vùng trên web)</h2>
+      <p>Khi anh bấm vào 1 chỗ lỗi trên web, cái bảng này sẽ mọc ra ngay chỗ đó. Tụi em đang làm cái bảng đen thui dưới đây, khác hoàn toàn với bản vẽ xanh lá INTENT của anh.</p>
+      
+      <div class="mock-menu">
+        <div class="label label-left" style="top: 15px; left: -210px;">5. Tên của phần tử bị lỗi</div>
+        <div class="mm-header">div .kpi-card</div>
+        
+        <div class="label label-right" style="top: 80px; right: -300px;">6. Các nút chốt lệnh (Tự động tạo câu hỏi)</div>
+        <div class="mm-btn" style="border-left: 3px solid #2563EB;">Copy Debug Prompt (Tìm lỗi CSS)</div>
+        <div class="mm-btn">Copy Fix CSS Prompt (Nhờ viết lại HTML)</div>
+        <div class="mm-btn">Copy A11Y Audit Prompt</div>
+        
+        <div class="label label-left" style="bottom: 75px; left: -280px;">7. Ô Feedback (Chỗ anh bắt phải có)</div>
+        <input type="text" class="mm-input" placeholder="Gõ yêu cầu vào đây... (Vd: Đổi màu cho tao)">
+        <div class="mm-btn" style="background: #2563EB; text-align: center; font-weight: bold; border:none;">Gửi Lệnh Phân Tích Kèm Yêu Cầu Này</div>
+      </div>
+      
+      <div style="background: #fffbeb; border: 1px solid #fde68a; padding: 20px; border-radius: 8px; margin-top: 40px;">
+        <h3 style="color: #d97706; margin-top: 0;">👉 ANH DUYỆT THẾ NÀO?</h3>
+        <p>Bây giờ anh hãy chụp màn hình cái trang này. Anh muốn đập cái bảng đen này đi để ráp cái <strong>Bảng INTENT viền xanh lá (Fix Layout, Đổi màu sắc...)</strong> mà anh thiết kế vào thay thế đúng không? Hay anh muốn giữ cái bảng này mà chỉ đổi màu? Anh cứ chụp hình gạch xóa vào đây rồi gửi cho em!</p>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

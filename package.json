@@ -1,0 +1,22 @@
+{
+  "name": "mh-quantum-inspector",
+  "version": "3.0.0",
+  "description": "Professional element inspector with WebGL Quantum Mesh, 4D context, E2E encryption and AI-ready output.",
+  "type": "module",
+  "main": "server/ws-server.js",
+  "scripts": {
+    "start": "node server/ws-server.js",
+    "dev": "node --watch server/ws-server.js",
+    "dev:ui": "node scripts/dev-server.js",
+    "build": "node scripts/build-bundle.js",
+    "verify": "node scripts/verify.js",
+    "release": "npm run build && npm run verify",
+    "logs": "node -e \"const fs=require('fs');const d='logs';if(!fs.existsSync(d)){console.log('No logs yet')}else{fs.readdirSync(d).slice(-10).forEach(f=>console.log(f))}\""
+  },
+  "dependencies": {
+    "ws": "^8.17.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

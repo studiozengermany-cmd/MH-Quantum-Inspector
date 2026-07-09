@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MH-Quantum Inspector</title>
+  <link rel="stylesheet" href="../fonts/fonts.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    
+    <!-- Top Nav Pill -->
+    <div class="top-nav reveal-up">
+      <div class="status-pill">
+        <div id="mhq-status-dot" class="status-dot"></div>
+        <span class="status-text" id="mhq-status-text">System Offline</span>
+      </div>
+      <button id="btn-close" class="close-btn" title="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <!-- MAIN DASHBOARD -->
+    <div id="view-dashboard" class="editorial-canvas">
+      
+      <!-- Spatial Rhythm Logo -->
+      <div class="logo-section reveal-up delay-100">
+        <div class="logo-icon-container">
+          <!-- 3D Ethereal Target -->
+          <svg width="90" height="90" viewBox="0 0 100 100" fill="none" class="logo-target">
+            <path d="M 32 12 L 12 12 L 12 32" stroke="#2563EB" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 68 12 L 88 12 L 88 32" stroke="#2563EB" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 12 68 L 12 88 L 32 88" stroke="#2563EB" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 88 68 L 88 88 L 68 88" stroke="#2563EB" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="50" cy="50" r="26" stroke="#2563EB" stroke-width="6"/>
+            <path d="M 50 12 L 50 24 M 50 76 L 50 88 M 12 50 L 24 50 M 76 50 L 88 50" stroke="#2563EB" stroke-width="6" stroke-linecap="round"/>
+          </svg>
+          <!-- Tactile Cursor -->
+          <svg width="50" height="50" viewBox="0 0 24 24" fill="#0F1115" class="logo-cursor">
+            <path d="M3 3l7 18 2.5-7.5L20 11 3 3z" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="logo-text-wrapper">
+          <h1 class="logo-title">MH-Quantum</h1>
+          <h2 class="logo-subtitle">Inspector</h2>
+        </div>
+      </div>
+
+      <!-- The Double-Bezel Control Panel -->
+      <div class="outer-bezel reveal-up delay-200">
+        <div class="inner-core">
+          <span class="eyebrow-tag">Ready State</span>
+          <p class="instruction-desc">
+            Press <span class="kbd-tag">Ctrl+Shift+X</span> to activate the spatial inspector.
+          </p>
+          
+          <div class="btn-container">
+            <!-- Start / Stop Button -->
+            <button id="btn-toggle-inspector" class="cta-btn cta-primary group">
+              <span id="toggle-text" class="btn-text">Start Inspecting</span>
+              <div class="cta-icon-wrapper">
+                <svg id="toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+              </div>
+            </button>
+
+            <!-- Guide Button -->
+            <button id="btn-guide-main" class="cta-btn cta-secondary group">
+              <span class="btn-text">Instruction Guide</span>
+              <div class="cta-icon-wrapper">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+              </div>
+            </button>
+
+            <!-- MCP Connect Button -->
+            <button id="btn-open-mcp" class="cta-btn cta-secondary group">
+              <span class="btn-text" style="color: var(--color-accent);">MCP Server Integration</span>
+              <div class="cta-icon-wrapper" style="background: rgba(37, 99, 235, 0.05); border: 1px solid rgba(37, 99, 235, 0.1);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- MCP SETUP VIEW -->
+    <div id="view-mcp" class="editorial-canvas" style="display: none;">
+      
+      <div class="w-full mb-6">
+        <button id="btn-back-dashboard" class="cta-btn cta-secondary" style="width: auto; padding: 4px 12px 4px 8px; border-radius: 9999px;">
+          <div class="cta-icon-wrapper" style="width: 24px; height: 24px; margin-right: 6px; background: rgba(0,0,0,0.05);">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          </div>
+          <span class="btn-text">Back</span>
+        </button>
+      </div>
+
+      <div class="outer-bezel w-full reveal-up">
+        <div class="inner-core" style="padding: 24px 20px; align-items: flex-start;">
+          
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(37, 99, 235, 0.1); display: flex; align-items: center; justify-content: center;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>
+            </div>
+            <h3 style="margin: 0; font-family: 'Geist', sans-serif; font-weight: 600; font-size: 16px; color: var(--color-text-main);">Cursor MCP Sync</h3>
+          </div>
+
+          <p style="font-family: 'Geist', sans-serif; font-size: 13px; color: var(--color-text-muted); margin: 0 0 20px 0; line-height: 1.5;">
+            Connect your IDE (Cursor/Claude) to receive real-time UI context from this extension.
+          </p>
+
+          <div style="width: 100%; display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <label style="font-family: 'Geist', sans-serif; font-size: 11px; font-weight: 600; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px;">1. Command</label>
+              <div class="kbd-container" style="background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between;">
+                <code id="mcp-cmd-text" style="font-family: var(--font-mono); font-size: 11px; color: var(--color-text-main); user-select: all;">node path/to/mcp/mcp-server.js</code>
+                <button data-copy="mcp-cmd-text" style="background: none; border: none; cursor: pointer; color: var(--color-text-muted);">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+            </div>
+            
+            <p style="font-family: 'Geist', sans-serif; font-size: 11px; color: var(--color-text-muted); margin: 4px 0 0 0;">
+              Paste this into <strong>Cursor Settings > MCP > Add New MCP Server</strong>.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    
+    <!-- Toasts Container -->
+    <div id="toast-container"></div>
+  </div>
+  
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

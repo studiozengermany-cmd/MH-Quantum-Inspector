@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "MH-Quantum Inspector",
+    "description": "The name of the extension"
+  },
+  "extDescription": {
+    "message": "Click any element → instant AI-ready context. Zero setup. Zero server.",
+    "description": "The description of the extension"
+  }
+}

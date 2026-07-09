@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — MH-Quantum Inspector</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: #0A0A0A;
+      color: #E0E0E0;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(0, 245, 255, 0.15);
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .header .accent {
+      color: #00F5FF;
+    }
+
+    .header .subtitle {
+      font-size: 14px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(0, 245, 255, 0.08);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      color: #00F5FF;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-top: 16px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    section {
+      margin-bottom: 36px;
+    }
+
+    section h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #00F5FF;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    section h2::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 18px;
+      background: #00F5FF;
+      border-radius: 2px;
+    }
+
+    section p,
+    section li {
+      font-size: 15px;
+      color: #C0C0C0;
+    }
+
+    section ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 8px;
+    }
+
+    section ul li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 8px;
+    }
+
+    section ul li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: #00F5FF;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .highlight-box {
+      background: rgba(0, 245, 255, 0.04);
+      border: 1px solid rgba(0, 245, 255, 0.12);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-top: 12px;
+    }
+
+    .highlight-box p {
+      font-size: 14px;
+      color: #A0A0A0;
+    }
+
+    .highlight-box code {
+      background: rgba(255, 255, 255, 0.06);
+      color: #00F5FF;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-family: 'Consolas', 'Fira Code', monospace;
+    }
+
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      text-align: center;
+      font-size: 13px;
+      color: #555;
+    }
+
+    .footer a {
+      color: #00F5FF;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1><span class="accent">MH-Quantum</span> Inspector</h1>
+      <p class="subtitle">Privacy Policy</p>
+      <span class="badge">100% Local Processing</span>
+    </header>
+
+    <section>
+      <h2>Data Collection</h2>
+      <p>MH-Quantum Inspector accesses tab and element styling details solely for local code analyses. The extension collects:</p>
+      <ul>
+        <li>DOM structure and CSS selectors of inspected elements</li>
+        <li>Computed styles (colors, layout, typography) for the selected element</li>
+        <li>Element geometry and stacking context</li>
+      </ul>
+      <p>All collected data is used exclusively to generate AI-ready context payloads for developer workflows.</p>
+    </section>
+
+    <section>
+      <h2>Local WebSocket Transmission</h2>
+      <p>When the optional MCP server bridge is active, MH-Quantum Inspector transmits DOM and CSS styling snippets via local WebSockets to localhost for MCP server integration.</p>
+      <div class="highlight-box">
+        <p>Connection endpoint: <code>ws://127.0.0.1:3747</code> — data never leaves your machine.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>No Remote Telemetry</h2>
+      <p>All data processing is conducted locally on your machine. MH-Quantum Inspector does not transmit any data to external servers, cloud services, or remote endpoints.</p>
+    </section>
+
+    <section>
+      <h2>No Tracking</h2>
+      <ul>
+        <li>No analytics or usage tracking of any kind</li>
+        <li>No cookies or persistent identifiers</li>
+        <li>No user behavior monitoring</li>
+        <li>No advertising or marketing data collection</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>No Third-Party Services</h2>
+      <p>MH-Quantum Inspector operates entirely independently. It does not integrate with, send data to, or receive data from any third-party services, APIs, or platforms.</p>
+    </section>
+
+    <section>
+      <h2>Permissions Used</h2>
+      <ul>
+        <li><strong>activeTab</strong> — Access the current tab to inspect element details</li>
+        <li><strong>storage</strong> — Persist user preferences locally</li>
+        <li><strong>contextMenus</strong> — Provide right-click menu integration</li>
+      </ul>
+    </section>
+
+    <div class="footer">
+      <p>MH-Quantum Inspector v3.0.0 · Last updated: July 2026</p>
+    </div>
+  </div>
+</body>
+</html>
