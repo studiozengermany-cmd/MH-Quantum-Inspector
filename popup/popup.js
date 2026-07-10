@@ -86,11 +86,10 @@ function bindEvents() {
     viewMcp.style.display = 'flex';
     viewMcp.style.flexDirection = 'column';
     
-    // Auto populate the correct command
+    // Auto populate the correct command format
     const mcpText = document.getElementById('mcp-cmd-text');
     if (mcpText) {
-      // Assuming they clone the extension into a typical folder, but we can just use a placeholder
-      mcpText.textContent = `node ${chrome.runtime.getURL('mcp/mcp-server.js').replace('chrome-extension://', 'path/to/extension/').split('/')[0] + '/mcp/mcp-server.js'}`;
+      mcpText.textContent = `node [Đường-dẫn-của-bạn]/MH-QUANTUM-INSPECTOR/mcp/mcp-server.js`;
     }
   });
 

@@ -8,7 +8,7 @@
     "start": "node server/ws-server.js",
     "dev": "node --watch server/ws-server.js",
     "dev:ui": "node scripts/dev-server.js",
-    "build": "node scripts/build-bundle.js",
+    "build": "node scripts/build.js",
     "verify": "node scripts/verify.js",
     "release": "npm run build && npm run verify",
     "logs": "node -e \"const fs=require('fs');const d='logs';if(!fs.existsSync(d)){console.log('No logs yet')}else{fs.readdirSync(d).slice(-10).forEach(f=>console.log(f))}\""

@@ -177,10 +177,9 @@
     </section>
 
     <section>
-      <h2>Local WebSocket Transmission</h2>
-      <p>When the optional MCP server bridge is active, MH-Quantum Inspector transmits DOM and CSS styling snippets via local WebSockets to localhost for MCP server integration.</p>
-      <div class="highlight-box">
-        <p>Connection endpoint: <code>ws://127.0.0.1:3747</code> — data never leaves your machine.</p>
+        <h2>1. Data Collection & Transmission</h2>
+        <p>This extension operates entirely locally. It does not send any data to external servers or cloud services.</p>
+        <p>When you use the "Connect to MCP Server" feature, the extension communicates strictly with your local machine via HTTP on <code>http://127.0.0.1:3747/sync</code> — data never leaves your machine.</p>
       </div>
     </section>
 

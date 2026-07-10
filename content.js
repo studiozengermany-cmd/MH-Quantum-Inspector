@@ -1,3 +1,17 @@
+
+function escapeHTML(str) {
+  if (!str) return '';
+  return String(str).replace(/[&<>'"]/g, 
+    tag => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      "'": '&#39;',
+      '"': '&quot;'
+    }[tag] || tag)
+  );
+}
+
 /**
  * MH-Quantum Inspector — Content Script (Light Theme / Agency Level)
  */
@@ -331,7 +345,7 @@
       || el.tagName?.toLowerCase?.()
       || 'unknown';
     const dims = `${Math.round(rect.width)}×${Math.round(rect.height)}`;
-    STATE.tooltip.textContent = `${selector}  ${dims}px`;
+    STATE.tooltip.textContent = `${escapeHTML(selector)}  ${dims}px`;
 
     const ttTop = rect.top > 30 ? rect.top - 28 : rect.bottom + 4;
     STATE.tooltip.style.top = `${Math.max(8, ttTop)}px`;
@@ -416,7 +430,7 @@
     menu.id = 'mhq-context-menu';
     const el = payload.element.identity;
     const selector = el.selector;
-    const styles = payload.element.computedStyles || {};
+    const styles = payload.element.styles || {};
     
     // Generate Prompt Content
     const promptContent = window.MHPromptGenerator ? window.MHPromptGenerator.generate(payload.element, '', 'debug') : 'Prompt generator not loaded.';
@@ -446,8 +460,8 @@
         <div>
           <div class="mhq-section-title">SELECTOR</div>
           <div class="mhq-input-box">
-            <span>${selector}</span>
-            <button class="mhq-menu-close" style="padding:2px !important;" data-copy="${selector}">
+            <span>${escapeHTML(selector)}</span>
+            <button class="mhq-menu-close" style="padding:2px !important;" data-copy="${escapeHTML(selector)}">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
             </button>
           </div>
@@ -455,7 +469,7 @@
         <div>
           <div class="mhq-section-title">BASIC INFO</div>
           <div class="mhq-input-box">
-            Tag: ${el.tag.toLowerCase()} | ID: ${el.id || 'none'}
+            Tag: ${escapeHTML(el.tag.toLowerCase())} | ID: ${escapeHTML(el.id || "none")}
           </div>
         </div>
       </div>
@@ -498,7 +512,7 @@
       <!-- TAB: PROMPT -->
       <div class="mhq-content" id="tab-prompt" style="display:none;">
         <div class="mhq-section-title">GENERATED PROMPT</div>
-        <textarea class="mhq-textarea" readonly>${promptContent}</textarea>
+        <textarea class="mhq-textarea" readonly>${escapeHTML(promptContent)}</textarea>
         <button class="mhq-btn mhq-btn-primary" data-action="copy-main-prompt" type="button">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
           Copy Prompt

@@ -24,7 +24,8 @@ const INCLUDE = [
   'content.js',
   'manifest.json',
   'privacy_policy.html',
-  'README.md'
+  'README.md',
+  'inspector.css'
 ];
 
 console.log('📦 Bắt đầu đóng gói Extension...');

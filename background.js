@@ -35,10 +35,24 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     switch (msg.type) {
       case 'STORE_PAYLOAD':
         lastPayload = msg.payload;
+        // 1. Sync to local storage for persistence
         await chrome.storage.local.set({
           lastPayload: msg.payload,
           lastInspected: new Date().toISOString()
         });
+        
+        // 2. Sync to local MCP Server Bridge immediately
+        try {
+          await fetch('http://127.0.0.1:3747/sync', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(msg.payload)
+          });
+        } catch (e) {
+          // It's okay if the MCP server isn't currently running
+          console.log('MCP Server bridge not active:', e.message);
+        }
+
         sendResponse({ ok: true });
         break;
 
