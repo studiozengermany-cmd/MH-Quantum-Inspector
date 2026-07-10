@@ -30,8 +30,6 @@ const INCLUDE = [
 
 console.log('📦 Bắt đầu đóng gói Extension...');
 
-// 1. Verification (Disabled)
-// Build will proceed directly
 
 // 2. Prepare dist folder
 if (!fs.existsSync(DIST_DIR)) {

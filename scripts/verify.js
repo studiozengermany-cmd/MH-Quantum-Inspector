@@ -1,180 +1,108 @@
-// ============================================================
-//  MH-QUANTUM-INSPECTOR v2.1 — Pre-ship Verifier
-//  node scripts/verify.js
-// ============================================================
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 
-"use strict";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const ROOT_DIR = path.join(__dirname, '..');
 
-const fs   = require("fs");
-const path = require("path");
-
-const ROOT = path.join(__dirname, "..");
-
-const REQUIRED_FILES = [
-  "mh-quantum.config.js",
-  "ui/mh-quantum.css",
-  "ui/toast.js",
-  "ui/control-panel.js",
-  "renderer/webgl-context.js",
-  "renderer/quantum-mesh-builder.js",
-  "renderer/hud-overlay.js",
-  "analyzer/stacking-context-resolver.js",
-  "analyzer/computed-style-extractor.js",
-  "analyzer/dom-crawler.js",
-  "core/temporal-observer.js",
-  "core/dimension-sampler.js",
-  "core/quantum-engine.js",
-  "transport/e2e-cipher.js",
-  "transport/payload-schema.js",
-  "transport/ws-client.js",
-  "server/ws-server.js",
-  "server/ai-bridge.js",
-  "scripts/build-bundle.js",
-  "scripts/dev-server.js",
-  "scripts/verify.js",
-  "index.html",
-  "package.json",
-  "README.md",
-];
-
-const BUNDLE_ORDER = [
-  "mh-quantum.config.js",
-  "analyzer/stacking-context-resolver.js",
-  "analyzer/computed-style-extractor.js",
-  "analyzer/dom-crawler.js",
-  "core/temporal-observer.js",
-  "core/dimension-sampler.js",
-  "renderer/webgl-context.js",
-  "renderer/quantum-mesh-builder.js",
-  "renderer/hud-overlay.js",
-  "transport/e2e-cipher.js",
-  "transport/payload-schema.js",
-  "transport/ws-client.js",
-  "ui/toast.js",
-  "ui/control-panel.js",
-  "core/quantum-engine.js",
-];
-
-const results = { pass: [], warn: [], fail: [] };
-function pass(msg) { results.pass.push(msg); console.log(`✅ ${msg}`); }
-function warn(msg) { results.warn.push(msg); console.log(`⚠️  ${msg}`); }
-function fail(msg) { results.fail.push(msg); console.log(`❌ ${msg}`); }
-function read(rel) { return fs.readFileSync(path.join(ROOT, rel), "utf8"); }
-function exists(rel) { return fs.existsSync(path.join(ROOT, rel)); }
-function expect(condition, message) { condition ? pass(message) : fail(message); }
-
-console.log("MH-Quantum-Inspector verify");
-console.log("=".repeat(44));
-
-REQUIRED_FILES.forEach((file) => expect(exists(file), `exists: ${file}`));
-
-REQUIRED_FILES.filter((file) => file.endsWith(".js")).forEach((file) => {
-  if (!exists(file)) return;
-  try {
-    new Function(read(file));
-    pass(`syntax ok: ${file}`);
-  } catch (e) {
-    fail(`syntax error: ${file}: ${e.message}`);
-  }
-});
-
-try {
-  const pkg = JSON.parse(read("package.json"));
-  ["start", "dev", "dev:ui", "build", "verify", "release", "logs"].forEach((script) => {
-    expect(!!pkg.scripts?.[script], `package script: ${script}`);
-  });
-} catch (e) {
-  fail(`package.json parse error: ${e.message}`);
-}
-
-if (exists("mhq.bundle.js")) {
-  const bundle = read("mhq.bundle.js");
-  let lastIndex = -1;
-  BUNDLE_ORDER.forEach((file) => {
-    const marker = `MODULE: ${file}`;
-    const idx = bundle.indexOf(marker);
-    expect(idx > lastIndex, `bundle order: ${file}`);
-    lastIndex = idx;
-  });
-  try {
-    new Function(bundle);
-    pass("bundle syntax ok");
-  } catch (e) {
-    fail(`bundle syntax error: ${e.message}`);
-  }
-} else {
-  fail("mhq.bundle.js missing — run npm run build first");
-}
-
-if (exists("server/ws-server.js")) {
-  const src = read("server/ws-server.js");
-  expect(src.includes("maxPayload"), "ws-server maxPayload set");
-  expect(src.includes("decodeP256PublicKey") && src.includes("key.length !== 65") && src.includes("key[0] !== 0x04"), "ws-server validates P-256 public key before computeSecret");
-  expect(src.includes("decodeIv") && src.includes("iv.length !== 12"), "ws-server validates AES-GCM iv");
-}
-
-if (exists("server/ai-bridge.js")) {
-  const src = read("server/ai-bridge.js");
-  expect(src.includes("safeSessionId") && src.includes("crypto.randomUUID"), "ai-bridge sanitizes session id");
-  expect(!src.includes("mhq-${payload.session_id}.json"), "ai-bridge avoids raw payload.session_id filename");
-}
-
-if (exists("core/temporal-observer.js")) {
-  const src = read("core/temporal-observer.js");
-  expect(src.includes("if (rafId || mutationObserver) return"), "temporal observer start is idempotent");
-  expect(!src.includes("styleInfo.is_animating || styleInfo.has_transition"), "transition declaration not treated as active animation");
-}
-
-if (exists("analyzer/stacking-context-resolver.js")) {
-  const src = read("analyzer/stacking-context-resolver.js");
-  ["position:fixed", "position:sticky", "flex-grid-z-index", "perspective", "clip-path", "mask", "backdrop-filter", "container-type"].forEach((needle) => {
-    expect(src.includes(needle), `stacking rule: ${needle}`);
-  });
-}
-
-if (exists("analyzer/dom-crawler.js")) {
-  const src = read("analyzer/dom-crawler.js");
-  expect(src.includes("max_elements_in_region") && src.includes("results.length >= limit"), "dom crawler enforces max_elements_in_region");
-}
-
-if (exists("transport/payload-schema.js")) {
-  const src = read("transport/payload-schema.js");
-  expect(src.includes("dom_snapshot") && src.includes("artifact_type"), "payload schema has explicit dom_snapshot artifact");
-}
-
-if (exists("renderer/webgl-context.js")) {
-  const src = read("renderer/webgl-context.js");
-  expect(src.includes("if (program)") && src.includes("deleteShader"), "WebGL program is reused and shaders cleaned");
-}
-
-if (exists("ui/toast.js") && exists("ui/mh-quantum.css")) {
-  expect(read("ui/toast.js").includes("warn") && read("ui/mh-quantum.css").includes("#mhq-toast.warn"), "toast supports warn style");
-}
-
-if (exists("server/package.json")) {
-  try {
-    const serverPkg = JSON.parse(read("server/package.json"));
-    const ok = serverPkg.main === "ws-server.js" && serverPkg.scripts?.start === "node ws-server.js";
-    ok ? pass("server/package.json paths ok") : fail("server/package.json paths must use ws-server.js or file should be removed");
-  } catch (e) {
-    fail(`server/package.json parse error: ${e.message}`);
-  }
-} else {
-  pass("server/package.json absent (root package is canonical)");
-}
-
-console.log("=".repeat(44));
-console.log(`PASS ${results.pass.length} | WARN ${results.warn.length} | FAIL ${results.fail.length}`);
-
-if (results.warn.length) {
-  console.log("\nWarnings:");
-  results.warn.forEach((msg) => console.log(`- ${msg}`));
-}
-
-if (results.fail.length) {
-  console.log("\nFailures:");
-  results.fail.forEach((msg) => console.log(`- ${msg}`));
+function fail(msg) {
+  console.error(`❌ FAIL: ${msg}`);
   process.exit(1);
 }
 
-console.log("Ready to ship checks passed.");
+function pass(msg) {
+  console.log(`✅ PASS: ${msg}`);
+}
+
+function exists(relPath) {
+  return fs.existsSync(path.join(ROOT_DIR, relPath));
+}
+
+function checkSyntax(relPath) {
+  if (!exists(relPath)) return;
+  try {
+    execSync(`node --check "${path.join(ROOT_DIR, relPath)}"`, { stdio: 'pipe' });
+    pass(`Syntax OK: ${relPath}`);
+  } catch (e) {
+    fail(`Syntax Error in ${relPath}: ${e.message}`);
+  }
+}
+
+console.log('🔍 Running Verify...');
+
+// 1. manifest.json parseable and exists
+const manifestPath = 'manifest.json';
+if (!exists(manifestPath)) fail('manifest.json does not exist');
+let manifest;
+try {
+  manifest = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, manifestPath), 'utf8'));
+  pass('manifest.json is valid JSON');
+} catch (e) {
+  fail(`manifest.json parse error: ${e.message}`);
+}
+
+// 2. Files referenced in manifest exist
+const expectedFiles = [];
+if (manifest.background?.service_worker) expectedFiles.push(manifest.background.service_worker);
+if (manifest.action?.default_popup) expectedFiles.push(manifest.action.default_popup);
+if (manifest.action?.default_icon) Object.values(manifest.action.default_icon).forEach(i => expectedFiles.push(i));
+if (manifest.icons) Object.values(manifest.icons).forEach(i => expectedFiles.push(i));
+if (manifest.content_scripts) {
+  manifest.content_scripts.forEach(cs => {
+    if (cs.js) cs.js.forEach(j => expectedFiles.push(j));
+    if (cs.css) cs.css.forEach(c => expectedFiles.push(c));
+  });
+}
+
+expectedFiles.forEach(file => {
+  if (exists(file)) {
+    pass(`File exists (from manifest): ${file}`);
+  } else {
+    fail(`File referenced in manifest not found: ${file}`);
+  }
+});
+
+// 3. inspector.css tồn tại
+if (exists('inspector.css')) {
+  pass('inspector.css exists');
+} else {
+  fail('inspector.css does not exist');
+}
+
+// 4. Check syntax for JS files
+const filesToCheck = ['background.js', 'content.js', 'popup/popup.js', 'mcp/mcp-server.js'];
+filesToCheck.forEach(file => {
+  if (exists(file)) {
+    checkSyntax(file);
+  }
+});
+
+// 5. mcp/mcp-server.js không được dùng console.log ra stdout
+const mcpServerPath = 'mcp/mcp-server.js';
+if (exists(mcpServerPath)) {
+  const mcpContent = fs.readFileSync(path.join(ROOT_DIR, mcpServerPath), 'utf8');
+  if (mcpContent.includes('console.log')) {
+    fail('mcp/mcp-server.js uses console.log. It must only output JSON-RPC to stdout. Use console.error for logging.');
+  } else {
+    pass('mcp/mcp-server.js does not use console.log');
+  }
+}
+
+// 6. package.json build phải trỏ đúng scripts/build.js
+const packageJsonPath = 'package.json';
+if (!exists(packageJsonPath)) fail('package.json missing');
+let pkg;
+try {
+  pkg = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, packageJsonPath), 'utf8'));
+} catch(e) {
+  fail('package.json parse error');
+}
+if (pkg.scripts?.build === 'node scripts/build.js') {
+  pass('package.json build script is correctly set');
+} else {
+  fail('package.json build script is not "node scripts/build.js"');
+}
+
+console.log('✅ All checks passed successfully.');
