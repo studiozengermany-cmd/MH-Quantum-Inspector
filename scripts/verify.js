@@ -71,11 +71,21 @@ if (exists('inspector.css')) {
   fail('inspector.css does not exist');
 }
 
-// 4. Check syntax for JS files
-const filesToCheck = ['background.js', 'content.js', 'popup/popup.js', 'mcp/mcp-server.js'];
+// 4. Check syntax for ALL JS files
+const filesToCheck = [
+  'background.js',
+  'content.js',
+  'popup/popup.js',
+  'utils/dom-crawler.js',
+  'utils/prompt-generator.js',
+  'utils/payload-schema.js',
+  'mcp/mcp-server.js'
+];
 filesToCheck.forEach(file => {
   if (exists(file)) {
     checkSyntax(file);
+  } else {
+    fail(`File required for syntax check not found: ${file}`);
   }
 });
 

@@ -38,7 +38,7 @@
 
     buildContextBlock(payload) {
       if (!payload) return 'No context available.';
-      const identity = payload.identity || {};
+      const ctxIdentity = payload.identity || {};
       const geometry = payload.geometry || { viewport: {} };
       const stacking = payload.stacking || {};
       const styles = payload.styles || {};
@@ -71,12 +71,12 @@
 `## Element Context (MH-Quantum Inspector)
 
 ### Identity
-- **Tag:** \`${identity.tag}\`
-- **Selector:** \`${identity.selector}\`
-- **XPath:** \`${identity.xpath}\`
-- **ID:** ${identity.id ? `\`#${identity.id}\`` : 'none'}
-- **Classes:** ${identity.classes?.length ? identity.classes.map((c) => `\`.${c}\``).join(', ') : 'none'}
-- **Role:** ${identity.role || 'none'} | **ARIA Label:** ${identity.ariaLabel || 'none'}
+- **Tag:** \`${ctxIdentity.tag}\`
+- **Selector:** \`${ctxIdentity.selector}\`
+- **XPath:** \`${ctxIdentity.xpath}\`
+- **ID:** ${ctxIdentity.id ? `\`#${ctxIdentity.id}\`` : 'none'}
+- **Classes:** ${ctxIdentity.classes?.length ? ctxIdentity.classes.map((c) => `\`.${c}\``).join(', ') : 'none'}
+- **Role:** ${ctxIdentity.role || 'none'} | **ARIA Label:** ${ctxIdentity.ariaLabel || 'none'}
 
 ### Geometry
 - **Document position:** x=${geometry.x}px, y=${geometry.y}px
