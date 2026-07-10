@@ -13,11 +13,9 @@ const ZIP_PATH = path.join(DIST_DIR, ZIP_NAME);
 // The whitelist of files/folders to include in the extension package
 const INCLUDE = [
   'analyzer',
-  'core',
   'fonts',
   'icons',
   'popup',
-  'transport',
   'utils',
   '_locales',
   'background.js',
