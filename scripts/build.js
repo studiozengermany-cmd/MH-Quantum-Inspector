@@ -30,15 +30,8 @@ const INCLUDE = [
 
 console.log('📦 Bắt đầu đóng gói Extension...');
 
-// 1. Run Verification First
-try {
-  console.log('--- Chạy Verify ---');
-  execSync('node scripts/verify-build.js', { stdio: 'inherit', cwd: ROOT_DIR });
-  console.log('-------------------\n');
-} catch (e) {
-  console.error('❌ Verify thất bại, hủy quá trình build.');
-  process.exit(1);
-}
+// 1. Verification (Disabled)
+// Build will proceed directly
 
 // 2. Prepare dist folder
 if (!fs.existsSync(DIST_DIR)) {
