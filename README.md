@@ -1,75 +1,94 @@
-<div align="center">
-  <img src="icons/icon128.png" alt="MH-Quantum Logo" width="128" />
-  <h1>MH-Quantum Inspector</h1>
-  <p><strong>Awwwards-Tier Spatial Inspector & Real-Time MCP Bridge for AI IDEs</strong></p>
-</div>
+# MH Quantum Inspector
 
----
+> **Trạng thái:** công cụ cá nhân đang phát triển. Dự án được tạo để giúp Minh Hiếu quan sát giao diện web, lấy đúng ngữ cảnh kỹ thuật và giao việc cho AI rõ ràng hơn. Chưa phải sản phẩm thương mại và chưa được phát hành như một tiện ích ổn định cho mọi người dùng.
 
-## ✦ Vision
+## Vì sao dự án này tồn tại?
 
-MH-Quantum Inspector is an ultra-premium, agency-level Chrome Extension designed to bridge the gap between browser UI inspection and AI coding context (Cursor, Claude, etc.). Built with an uncompromising **"God-Tier" design philosophy** (Double-Bezel architecture, Cream/Beige palette, Spring Physics), this tool allows developers to instantly capture DOM structure, computed styles, and AI-ready prompts directly from the browser.
+Minh Hiếu bắt đầu từ nhu cầu thực tế chứ không bắt đầu từ việc đã biết lập trình. Khi làm việc với AI, một khó khăn lớn là mô tả đúng phần giao diện đang cần sửa: phần tử nào, kích thước ra sao, CSS nào đang tác động và mục tiêu muốn thay đổi là gì.
 
-Created by **Minh Hieu Producer (Studio Zen Germany)**, MH-Quantum Inspector doesn't just extract data; it provides an unparalleled tactile and visual experience.
+MH Quantum Inspector được xây dựng để giảm sự mơ hồ đó. Công cụ hỗ trợ chọn một phần tử trên trang web, thu thập ngữ cảnh DOM/CSS và chuyển thông tin thành nội dung có cấu trúc để người dùng hoặc AI hiểu đúng vấn đề hơn.
 
-## 🎥 Demos
+Mục tiêu cốt lõi không phải thay người dùng quyết định. Người dùng vẫn là người xác định cần làm gì; AI chỉ hỗ trợ rút ngắn các bước kỹ thuật và tiết kiệm thời gian.
 
-See MH-Quantum Inspector in action. The tool seamlessly captures UI context and feeds it directly into your AI workflow.
+## Vị trí trong hệ sinh thái MH
 
-- **[Watch the Full Architecture Review](check/product-review-multi-scene.mp4)**  
-  *(Real-time MCP integration, popup dashboard, and Cursor sync)*
-- **[Watch the Quick Inspector Demo](check/product-review-final.mp4)**
+MH Quantum Inspector là lớp **quan sát và làm rõ** cho toàn bộ chuỗi dự án MH:
 
-*(Note: Videos are hosted directly in the repository under the `/check` directory).*
+```text
+MH Quantum Inspector
+Quan sát giao diện, lấy ngữ cảnh, làm rõ yêu cầu cho AI
+        ↓
+MH-Dowsample
+Thu thập, kiểm tra và chuẩn hóa sample
+        ↓
+MH FileOS
+Lập chỉ mục, phân tích, sắp xếp và bảo vệ dữ liệu
+        ↓
+MH Sample FL
+Tìm, nghe, ghi nhớ và sử dụng sample trong quy trình FL Studio
+        ↓
+MINH HIEU STUDIO
+Ghi lại quá trình, chia sẻ kiến thức và đưa AI đến gần người dùng hơn
+```
 
----
+Các dự án này không phải những sản phẩm rời rạc. Chúng được phát triển theo một câu chuyện chung: quan sát rõ hơn, giảm việc lặp lại, bảo vệ dữ liệu, tối ưu quy trình sáng tạo và chia sẻ những gì đã học được.
 
-## ✦ Features
+## Chức năng hiện có trong source
 
-- **Spatial Inspector (Awwwards Level):** A floating, draggable context menu with a transparent double-bezel UI.
-- **Deep DOM Crawling:** Accurately calculates true bounding boxes, extracts CSS, and ignores irrelevant shadow roots.
-- **AI-Ready Prompt Generation:** Instantly outputs highly structured, context-rich prompts tailored for Claude, ChatGPT, or Cursor.
-- **Real-Time MCP Sync:** A local Node.js Model Context Protocol (MCP) server that seamlessly syncs hovered elements directly to your IDE.
+- Chrome Extension Manifest V3.
+- Chọn và kiểm tra phần tử trên trang web.
+- Thu thập selector, kích thước, vị trí và một số computed styles.
+- Tạo nội dung có cấu trúc để dùng khi mô tả lỗi, sửa CSS, giải thích hoặc refactor.
+- Local MCP server bằng Node.js.
+- Local HTTP sync bridge giữa extension và MCP server.
+- Phím tắt để bật inspector và sao chép ngữ cảnh gần nhất.
 
----
+## Giới hạn và cảnh báo quyền riêng tư
 
-## ✦ Installation
+- Extension hiện khai báo `host_permissions` cho `<all_urls>` để có thể inspect trang đang mở. Người dùng cần tự xem xét quyền này trước khi cài.
+- Công cụ có thể đọc cấu trúc và style của phần tử trên trang mà người dùng chủ động kiểm tra.
+- MCP bridge chạy local tại `127.0.0.1` và mặc định dùng cổng `3747`.
+- Payload gần nhất có thể được lưu trong file local của MCP server.
+- Không nên dùng công cụ trên trang chứa thông tin nhạy cảm khi chưa hiểu rõ dữ liệu được thu thập.
+- Repository chưa tuyên bố đã qua security audit, Chrome Web Store review hoặc kiểm thử đầy đủ trên mọi website.
+- Không gọi giao diện đẹp hoặc demo thành công là bằng chứng công cụ đã sẵn sàng cho production.
 
-### 1. Load the Chrome Extension
-1. Open Chrome and navigate to `chrome://extensions/`.
-2. Toggle **Developer mode** in the top right.
-3. Click **Load unpacked** and select the `MH-QUANTUM-INSPECTOR` folder.
-4. Pin the extension to your toolbar.
+## Cài đặt thử nghiệm
 
-### 2. Connect to Cursor (MCP Sync)
-To allow Cursor or Claude to read the UI you are inspecting in real time:
-1. Open Cursor Settings > **MCP**.
-2. Click **+ Add New MCP Server**.
-3. Name: `MH-Quantum`
-4. Type: `command`
-5. Command:
-   ```bash
-   node path/to/MH-QUANTUM-INSPECTOR/mcp/mcp-server.js
-   ```
-*(You can also find this command beautifully formatted inside the extension's Popup Dashboard!)*
+### 1. Nạp Chrome Extension
 
----
+1. Mở `chrome://extensions/`.
+2. Bật **Developer mode**.
+3. Chọn **Load unpacked**.
+4. Chọn thư mục repository.
+5. Ghim extension vào thanh công cụ nếu cần.
 
-## ✦ Usage Guide
+### 2. Chạy MCP server local
 
-1. Go to any webpage you want to inspect.
-2. Press **`Ctrl + Shift + X`** (or `Cmd + Shift + X` on Mac) to activate the Spatial Inspector.
-3. Hover over elements to see the spring-physics overlay.
-4. Click on an element. The Awwwards-tier floating inspector will appear with:
-   - **Selector:** Exact CSS path and IDs.
-   - **Layout:** A visual Box Model (Margin, Border, Padding).
-   - **Styles:** The computed styles applied to the element.
-   - **AI Prompt:** A one-click copyable prompt for your AI.
-5. If the MCP Server is running, your Cursor IDE will instantly receive this context!
+```bash
+node mcp/mcp-server.js
+```
 
----
+Sau đó cấu hình AI IDE hoặc MCP client dùng command trên. Cách cấu hình cụ thể tùy từng phần mềm và có thể thay đổi theo phiên bản.
 
-<div align="center">
-  <p>Designed and engineered by <b>Minh Hieu Producer</b>.</p>
-  <p><i>MH-Quantum © 2026 Studio Zen Germany. All rights reserved.</i></p>
-</div>
+## Sử dụng cơ bản
+
+1. Mở trang web cần kiểm tra.
+2. Nhấn `Ctrl + Shift + X` hoặc `Cmd + Shift + X`.
+3. Chọn phần tử cần xem.
+4. Kiểm tra selector, box model, style và nội dung gợi ý.
+5. Người dùng tự quyết định nội dung nào được đưa cho AI.
+
+## Nguyên tắc của dự án
+
+1. Người dùng quyết định mục tiêu; AI chỉ hỗ trợ thực hiện.
+2. Ngữ cảnh phải đến từ dữ liệu thật, không bịa thông tin về giao diện.
+3. Không tự nhận công cụ hoàn thiện khi chưa có kiểm thử.
+4. Ưu tiên local, minh bạch dữ liệu và quyền kiểm soát của người dùng.
+5. Làm cho nhu cầu cá nhân trước; chỉ chia sẻ rộng khi đủ rõ ràng và an toàn.
+
+## Liên hệ
+
+- Website: https://studiominhhieu.com/
+- Email: support@studiominhhieu.com
+- GitHub: https://github.com/studiozengermany-cmd
